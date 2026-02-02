@@ -420,6 +420,43 @@
         /* Keep button at natural width, centered by parent text-align */
     }
   }
+
+  .ap-author-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .ap-reasoning-content {
+    display: none;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background-color: #fffcf0; /* Light beige background */
+    border: 1px solid #f3e9c6;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #334155;
+    text-align: left;
+  }
+  
+  .ap-reasoning-btn {
+    border: none;
+    background: none;
+    color: #38bdf8; /* Light Blue */
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+    transition: color 0.2s ease;
+  }
+  
+  .ap-reasoning-btn:hover {
+    color: #0ea5e9; /* Slightly darker blue on hover */
+    text-decoration: underline;
+  }
 </style>
 
 <div class="daily-sports-picks-section">
@@ -521,8 +558,14 @@
                 <div class="ap-pick-line">
                   <span>{{ block.settings.pick_line }}</span>
                   {%- if block.settings.show_reasoning_btn -%}
-                    <span class="ap-reasoning-btn">Reasoning ⌵</span>
+                    <button type="button" class="ap-reasoning-btn" onclick="toggleReasoning('{{ block.id }}', this)">
+                      Reasoning ⌵
+                    </button>
                   {%- endif -%}
+                </div>
+                
+                <div id="reasoning-{{ block.id }}" class="ap-reasoning-content">
+                   {{ block.settings.reasoning_text }}
                 </div>
               {%- endif -%}
 
@@ -627,6 +670,19 @@
     </div>
   {%- endif -%}
 </div>
+
+<script>
+  function toggleReasoning(blockId, btn) {
+    var content = document.getElementById('reasoning-' + blockId);
+    if (content.style.display === 'none' || content.style.display === '') {
+      content.style.display = 'block';
+      btn.innerText = 'Reasoning ︿';
+    } else {
+      content.style.display = 'none';
+      btn.innerText = 'Reasoning ⌵';
+    }
+  }
+</script>
 
 {% schema %}
 {
@@ -771,6 +827,12 @@
           "id": "show_reasoning_btn",
           "label": "Show Reasoning Button",
           "default": true
+        },
+        {
+          "type": "richtext",
+          "id": "reasoning_text",
+          "label": "Reasoning Content",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
         },
         {
           "type": "text",
