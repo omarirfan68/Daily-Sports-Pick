@@ -465,8 +465,6 @@
 
 <div class="daily-sports-picks-section">
   {%- assign active_pick_blocks = section.blocks | where: 'type', 'active_pick' -%}
-  {%- assign link_item_blocks = section.blocks | where: 'type', 'link_item' -%}
-  
   {%- if active_pick_blocks.size > 0 -%}
     <!-- Active Picks View -->
     <div class="active-picks-container">
@@ -476,153 +474,7 @@
 
       {%- for block in active_pick_blocks -%}
         <div {{ block.shopify_attributes }}>
-          <div class="active-pick-card">
-            <!-- Card Header -->
-            <div class="ap-header">
-              {%- if block.settings.show_game_info -%}
-                <div class="ap-meta-row">
-                  <span>{{ block.settings.game_time }}</span>
-                  <span>{{ block.settings.game_date }}</span>
-                </div>
-              {%- endif -%}
-              
-              {%- if block.settings.show_matchup -%}
-                <div class="ap-matchup-row">
-                  <div class="ap-logos">
-                     {%- if block.settings.team_1_name != blank -%}
-                        {%- if block.settings.team_1_logo != blank -%}
-                            {{ block.settings.team_1_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
-                        {%- else -%}
-                            <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=1" class="ap-logo-img" alt="Team 1">
-                        {%- endif -%}
-                     {%- endif -%}
-                     
-                     {%- if block.settings.team_2_name != blank -%}
-                        {%- if block.settings.team_2_logo != blank -%}
-                            {{ block.settings.team_2_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
-                        {%- else -%}
-                            <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=2" class="ap-logo-img" alt="Team 2">
-                        {%- endif -%}
-                     {%- endif -%}
-
-                     {%- if block.settings.team_3_name != blank -%}
-                        {%- if block.settings.team_3_logo != blank -%}
-                            {{ block.settings.team_3_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
-                        {%- else -%}
-                            <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=3" class="ap-logo-img" alt="Team 3">
-                        {%- endif -%}
-                     {%- endif -%}
-                  </div>
-                  <div class="ap-teams">
-                    {%- if block.settings.team_1_name != blank -%}
-                        <div class="ap-team-name">{{ block.settings.team_1_name }}</div>
-                    {%- endif -%}
-                    {%- if block.settings.team_2_name != blank -%}
-                        <div class="ap-team-name">{{ block.settings.team_2_name }}</div>
-                    {%- endif -%}
-                    {%- if block.settings.team_3_name != blank -%}
-                        <div class="ap-team-name">{{ block.settings.team_3_name }}</div>
-                    {%- endif -%}
-                  </div>
-                </div>
-              {%- endif -%}
-            </div>
-
-            <!-- Card Body -->
-            <div class="ap-body">
-              <div class="ap-tags-stars-row">
-                {%- if block.settings.show_tags -%}
-                  <div class="ap-tags">
-                    {%- if block.settings.tag_1 != blank -%}
-                      <span class="ap-tag {{ block.settings.tag_1_color }}">{{ block.settings.tag_1 }}</span>
-                    {%- endif -%}
-                    {%- if block.settings.tag_2 != blank -%}
-                      <span class="ap-tag {{ block.settings.tag_2_color }}">{{ block.settings.tag_2 }}</span>
-                    {%- endif -%}
-                     {%- if block.settings.tag_3 != blank -%}
-                      <span class="ap-tag {{ block.settings.tag_3_color }}">{{ block.settings.tag_3 }}</span>
-                    {%- endif -%}
-                  </div>
-                {%- endif -%}
-                
-                {%- if block.settings.show_stars -%}
-                  <div class="ap-stars">
-                    {%- for i in (1..5) -%}
-                      {%- if i <= block.settings.star_rating -%}
-                        ★
-                      {%- else -%}
-                        ☆
-                      {%- endif -%}
-                    {%- endfor -%}
-                  </div>
-                {%- endif -%}
-              </div>
-
-              {%- if block.settings.show_pick_line -%}
-                <div class="ap-pick-line">
-                  <span>{{ block.settings.pick_line }}</span>
-                  {%- if block.settings.show_reasoning_btn -%}
-                    <button type="button" class="ap-reasoning-btn" onclick="toggleReasoning('{{ block.id }}', this)">
-                      Reasoning ⌵
-                    </button>
-                  {%- endif -%}
-                </div>
-                
-                <div id="reasoning-{{ block.id }}" class="ap-reasoning-content">
-                   {{ block.settings.reasoning_text }}
-                </div>
-              {%- endif -%}
-
-              {%- if block.settings.show_cta -%}
-                <a href="{{ block.settings.cta_link | default: '#' }}" class="ap-cta-btn">
-                  {{ block.settings.cta_text }}
-                </a>
-              {%- endif -%}
-
-              {%- if block.settings.show_author -%}
-                <div class="ap-author-row">
-                  {%- if block.settings.author_image != blank -%}
-                     {{ block.settings.author_image | image_url: width: 64 | image_tag: class: 'ap-author-img', loading: 'lazy' }}
-                  {%- else -%}
-                     <img src="https://placehold.co/64x64/e2e8f0/64748b?text=U" class="ap-author-img" alt="Author">
-                  {%- endif -%}
-                  <span class="ap-author-name">{{ block.settings.author_name }}</span>
-                </div>
-              {%- endif -%}
-            </div>
-          </div>
-          
-          {%- if block.settings.show_stats -%}
-            <div class="stats-card">
-              <div class="stats-header">{{ block.settings.stats_title }}</div>
-              <div class="stats-content">
-                <div class="stats-circle-container">
-                  {%- assign win_pct = block.settings.win_percentage | default: 50 -%}
-                  <div class="stats-circle" style="background-image: conic-gradient(#7dd3fc 0% {{ win_pct }}%, #334155 {{ win_pct }}% 100%);">
-                    <div class="stats-circle-inner">
-                      <div class="stats-percent-text">{{ block.settings.win_percentage }}<span style="font-size: 10px;">%</span></div>
-                      <div class="stats-percent-label">Win %</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="stats-numbers">
-                  <div class="stats-block">
-                    <div class="stats-value">{{ block.settings.wins }}</div>
-                    <div class="stats-label">Wins</div>
-                  </div>
-                  <div class="stats-block">
-                    <div class="stats-value">{{ block.settings.losses }}</div>
-                    <div class="stats-label">Losses</div>
-                  </div>
-                   <div class="stats-block">
-                    <div class="stats-value">{{ block.settings.pushes }}</div>
-                    <div class="stats-label">Pushes</div>
-                  </div>
-                </div>
-              </div>
-              <div class="stats-footer">{{ block.settings.stats_footer }}</div>
-            </div>
-          {%- endif -%}
+          {% render 'active-pick-card', block: block %}
         </div>
       {%- endfor -%}
     </div>
@@ -658,19 +510,6 @@
             {{ section.settings.info_text }}
         </div>
       {%- endif -%}
-
-      <ul class="pick-links">
-        {%- for block in link_item_blocks -%}
-          <li class="pick-link-item" {{ block.shopify_attributes }}>
-            <div class="pick-link-content">
-                <a href="{{ block.settings.url }}" class="pick-link-title">{{ block.settings.title }}</a>
-                {%- if block.settings.description != blank -%}
-                  <p class="pick-link-desc">- {{ block.settings.description }}</p>
-                {%- endif -%}
-            </div>
-          </li>
-        {%- endfor -%}
-      </ul>
     </div>
   {%- endif -%}
 </div>
@@ -999,29 +838,6 @@
           "default": "Percentage only includes Wins and Losses"
         }
       ]
-    },
-    {
-      "type": "link_item",
-      "name": "Link Item",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Link Title",
-          "default": "News"
-        },
-        {
-          "type": "url",
-          "id": "url",
-          "label": "Link URL"
-        },
-        {
-          "type": "text",
-          "id": "description",
-          "label": "Description",
-          "default": "Discover the latest news."
-        }
-      ]
     }
   ],
   "presets": [
@@ -1029,18 +845,7 @@
       "name": "Daily Sports Pick",
       "blocks": [
         {
-          "type": "link_item",
-          "settings": {
-            "title": "Tennis News",
-            "description": "Discover the latest news."
-          }
-        },
-        {
-          "type": "link_item",
-          "settings": {
-             "title": "Bonuses",
-             "description": "Check out the latest selection of offers from your favorite Sportsbooks."
-          }
+          "type": "active_pick"
         }
       ]
     }
