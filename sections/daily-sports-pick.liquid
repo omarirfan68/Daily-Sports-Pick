@@ -148,56 +148,89 @@
 </style>
 
 <div class="daily-sports-picks-section">
-  {%- if section.settings.heading_text != blank -%}
-    <h2 class="pick-header">{{ section.settings.heading_text }}</h2>
-  {%- endif -%}
-  
-  <div class="pick-card">
-    <div class="pick-main-content">
-      <div class="pick-message-col">
-        {%- if section.settings.message_text != blank -%}
-          <div class="pick-message-title">{{ section.settings.message_text }}</div>
-        {%- endif -%}
+  {%- if section.settings.active_pick_text != blank -%}
+    <!-- Active Pick View -->
+    <div class="active-pick-container" style="text-align: center; max-width: 1000px; margin: 0 auto;">
+      {%- if section.settings.heading_text != blank -%}
+        <h2 class="pick-header">{{ section.settings.heading_text }}</h2>
+      {%- endif -%}
+      
+      <div class="active-pick-content" style="background: white; padding: 40px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <div style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">
+          {{ section.settings.active_pick_text }}
+        </div>
         
-        {%- if section.settings.button_label != blank -%}
-          <a href="{{ section.settings.button_link | default: routes.root_url }}" class="pick-btn">{{ section.settings.button_label }}</a>
-        {%- endif -%}
-      </div>
-      <div class="pick-image-col">
-        {%- if section.settings.image != blank -%}
-          {{ section.settings.image | image_url: width: 400, height: 300, crop: 'center' | image_tag: loading: 'lazy', width: 400, height: 300 }}
-        {%- else -%}
-          <!-- Placeholder image resembling the tech illustration in the mockup -->
-          <img src="https://placehold.co/400x300/e2e8f0/1e293b?text=Sports+Picks+Illustration" alt="Sports Picks Illustration" width="400" height="300">
-        {%- endif -%}
+
       </div>
     </div>
-
-    {%- if section.settings.info_text != blank -%}
-      <div class="pick-secondary-text">
-          {{ section.settings.info_text }}
-      </div>
+  {%- else -%}
+    <!-- Placeholder / No Picks View -->
+    {%- if section.settings.heading_text != blank -%}
+      <h2 class="pick-header">{{ section.settings.heading_text }}</h2>
     {%- endif -%}
+    
+    <div class="pick-card">
+      <div class="pick-main-content">
+        <div class="pick-message-col">
+          {%- if section.settings.message_text != blank -%}
+            <div class="pick-message-title">{{ section.settings.message_text }}</div>
+          {%- endif -%}
+          
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link | default: routes.root_url }}" class="pick-btn">{{ section.settings.button_label }}</a>
+          {%- endif -%}
+        </div>
+        <div class="pick-image-col">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 400, height: 300, crop: 'center' | image_tag: loading: 'lazy', width: 400, height: 300 }}
+          {%- else -%}
+            <!-- Placeholder image resembling the tech illustration in the mockup -->
+            <img src="https://placehold.co/400x300/e2e8f0/1e293b?text=Sports+Picks+Illustration" alt="Sports Picks Illustration" width="400" height="300">
+          {%- endif -%}
+        </div>
+      </div>
 
-    <ul class="pick-links">
-      {%- for block in section.blocks -%}
-        <li class="pick-link-item" {{ block.shopify_attributes }}>
-          <div class="pick-link-content">
-              <a href="{{ block.settings.url }}" class="pick-link-title">{{ block.settings.title }}</a>
-              {%- if block.settings.description != blank -%}
-                <p class="pick-link-desc">- {{ block.settings.description }}</p>
-              {%- endif -%}
-          </div>
-        </li>
-      {%- endfor -%}
-    </ul>
-  </div>
+      {%- if section.settings.info_text != blank -%}
+        <div class="pick-secondary-text">
+            {{ section.settings.info_text }}
+        </div>
+      {%- endif -%}
+
+      <ul class="pick-links">
+        {%- for block in section.blocks -%}
+          <li class="pick-link-item" {{ block.shopify_attributes }}>
+            <div class="pick-link-content">
+                <a href="{{ block.settings.url }}" class="pick-link-title">{{ block.settings.title }}</a>
+                {%- if block.settings.description != blank -%}
+                  <p class="pick-link-desc">- {{ block.settings.description }}</p>
+                {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
 </div>
 
 {% schema %}
 {
   "name": "Daily Sports Pick",
   "settings": [
+    {
+      "type": "header",
+      "content": "Active Pick Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "active_pick_text",
+      "label": "Active Pick Text",
+      "info": "If this field is filled, the Active Pick view will be shown instead of the placeholder."
+    },
+
+    {
+      "type": "header",
+      "content": "Placeholder Settings"
+    },
     {
       "type": "text",
       "id": "heading_text",
@@ -207,29 +240,29 @@
     {
       "type": "textarea",
       "id": "message_text",
-      "label": "Main Message",
+      "label": "Placeholder Message",
       "default": "Sorry, There Are No Picks Available At This Time!"
     },
     {
       "type": "text",
       "id": "button_label",
-      "label": "Button Label",
+      "label": "Placeholder Button Label",
       "default": "Take Me Home"
     },
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button Link"
+      "label": "Placeholder Button Link"
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Image"
+      "label": "Placeholder Image"
     },
     {
       "type": "textarea",
       "id": "info_text",
-      "label": "Information Text",
+      "label": "Placeholder Info Text",
       "default": "Check back later today to find out if any are added, or head over to our picks page for bets on all of today's big matchups."
     }
   ],
