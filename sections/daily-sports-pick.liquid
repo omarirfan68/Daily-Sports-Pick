@@ -1,5 +1,186 @@
-<div>
-  Hello World
+<style>
+  .daily-sports-picks-section {
+    padding: 40px 20px;
+    background-color: #f8f9fa; /* Light gray background for the section to make the white card pop */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .pick-header {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pick-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    padding: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .pick-main-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 20px;
+  }
+
+  .pick-message-col {
+    flex: 1;
+  }
+
+  .pick-message-title {
+    font-size: 36px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 24px;
+    letter-spacing: -0.5px;
+  }
+
+  .pick-btn {
+    display: inline-block;
+    background-color: #b91c1c; /* Deep red */
+    color: #ffffff;
+    padding: 12px 32px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+  }
+
+  .pick-btn:hover {
+    background-color: #991b1b;
+  }
+
+  .pick-image-col {
+    flex: 0 0 40%;
+    text-align: right;
+  }
+
+  .pick-image-col img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+  }
+
+  .pick-secondary-text {
+    font-size: 16px;
+    color: #4a5568;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .pick-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .pick-link-item {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .pick-link-item:before {
+    content: "•";
+    color: #1a202c;
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+  
+  .pick-link-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pick-link-title {
+    font-size: 16px;
+    color: #2b6cb0; /* Blue link color */
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 2px;
+    transition: color 0.2s;
+  }
+
+  .pick-link-title:hover {
+    color: #2c5282;
+    text-decoration: underline;
+  }
+
+  .pick-link-desc {
+    font-size: 15px;
+    color: #4a5568;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .pick-main-content {
+      flex-direction: column-reverse;
+      text-align: center;
+    }
+    
+    .pick-image-col {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .pick-btn {
+        /* Keep button at natural width, centered by parent text-align */
+    }
+  }
+</style>
+
+<div class="daily-sports-picks-section">
+  <h2 class="pick-header">Tennis Picks</h2>
+  
+  <div class="pick-card">
+    <div class="pick-main-content">
+      <div class="pick-message-col">
+        <div class="pick-message-title">Sorry, There Are No Picks Available At This Time!</div>
+        <a href="{{ routes.root_url }}" class="pick-btn">Take Me Home</a>
+      </div>
+      <div class="pick-image-col">
+        <!-- Placeholder image resembling the tech illustration in the mockup -->
+        <img src="https://placehold.co/400x300/e2e8f0/1e293b?text=Sports+Picks+Illustration" alt="Sports Picks Illustration" width="400" height="300">
+      </div>
+    </div>
+
+    <div class="pick-secondary-text">
+        Check back later today to find out if any are added, or head over to our picks page for bets on all of today's big matchups.
+    </div>
+
+    <ul class="pick-links">
+      <li class="pick-link-item">
+        <div class="pick-link-content">
+            <a href="#" class="pick-link-title">Tennis News</a>
+            <p class="pick-link-desc">- Discover the latest news.</p>
+        </div>
+      </li>
+      <li class="pick-link-item">
+        <div class="pick-link-content">
+            <a href="#" class="pick-link-title">Bonuses</a>
+            <p class="pick-link-desc">- Check out the latest selection of offers from your favorite Sportsbooks.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>
 
 {% schema %}
