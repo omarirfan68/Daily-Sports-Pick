@@ -157,8 +157,12 @@
         <a href="{{ routes.root_url }}" class="pick-btn">Take Me Home</a>
       </div>
       <div class="pick-image-col">
-        <!-- Placeholder image resembling the tech illustration in the mockup -->
-        <img src="https://placehold.co/400x300/e2e8f0/1e293b?text=Sports+Picks+Illustration" alt="Sports Picks Illustration" width="400" height="300">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', width: section.settings.image.width, height: section.settings.image.height }}
+        {%- else -%}
+          <!-- Placeholder image resembling the tech illustration in the mockup -->
+          <img src="https://placehold.co/400x300/e2e8f0/1e293b?text=Sports+Picks+Illustration" alt="Sports Picks Illustration" width="400" height="300">
+        {%- endif -%}
       </div>
     </div>
 
@@ -186,7 +190,13 @@
 {% schema %}
 {
   "name": "Daily Sports Pick",
-  "settings": [],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ],
   "presets": [
     {
       "name": "Daily Sports Pick"
