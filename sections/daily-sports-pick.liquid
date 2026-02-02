@@ -27,6 +27,17 @@
     margin: 0 auto;
   }
 
+  .active-pick-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    padding: 40px;
+    max-width: 1000px;
+    margin: 0 auto 20px auto; /* Margin bottom for separation between multiple picks */
+    text-align: center;
+  }
+
   .pick-main-content {
     display: flex;
     justify-content: space-between;
@@ -148,20 +159,23 @@
 </style>
 
 <div class="daily-sports-picks-section">
-  {%- if section.settings.active_pick_text != blank -%}
-    <!-- Active Pick View -->
-    <div class="active-pick-container" style="text-align: center; max-width: 1000px; margin: 0 auto;">
+  {%- assign active_pick_blocks = section.blocks | where: 'type', 'active_pick' -%}
+  {%- assign link_item_blocks = section.blocks | where: 'type', 'link_item' -%}
+  
+  {%- if active_pick_blocks.size > 0 -%}
+    <!-- Active Picks View -->
+    <div class="active-picks-container">
       {%- if section.settings.heading_text != blank -%}
-        <h2 class="pick-header">{{ section.settings.heading_text }}</h2>
+        <h2 class="pick-header" style="text-align: center;">{{ section.settings.heading_text }}</h2>
       {%- endif -%}
-      
-      <div class="active-pick-content" style="background: white; padding: 40px; border-radius: 8px; border: 1px solid #e2e8f0;">
-        <div style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">
-          {{ section.settings.active_pick_text }}
-        </div>
-        
 
-      </div>
+      {%- for block in active_pick_blocks -%}
+        <div class="active-pick-card" {{ block.shopify_attributes }}>
+          <div style="font-size: 24px; font-weight: bold;">
+            {{ block.settings.text }}
+          </div>
+        </div>
+      {%- endfor -%}
     </div>
   {%- else -%}
     <!-- Placeholder / No Picks View -->
@@ -197,7 +211,7 @@
       {%- endif -%}
 
       <ul class="pick-links">
-        {%- for block in section.blocks -%}
+        {%- for block in link_item_blocks -%}
           <li class="pick-link-item" {{ block.shopify_attributes }}>
             <div class="pick-link-content">
                 <a href="{{ block.settings.url }}" class="pick-link-title">{{ block.settings.title }}</a>
@@ -216,17 +230,6 @@
 {
   "name": "Daily Sports Pick",
   "settings": [
-    {
-      "type": "header",
-      "content": "Active Pick Settings"
-    },
-    {
-      "type": "textarea",
-      "id": "active_pick_text",
-      "label": "Active Pick Text",
-      "info": "If this field is filled, the Active Pick view will be shown instead of the placeholder."
-    },
-
     {
       "type": "header",
       "content": "Placeholder Settings"
@@ -267,6 +270,18 @@
     }
   ],
   "blocks": [
+    {
+      "type": "active_pick",
+      "name": "Active Pick",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Pick Text",
+          "default": "Todays Pick: Player A to win!"
+        }
+      ]
+    },
     {
       "type": "link_item",
       "name": "Link Item",
