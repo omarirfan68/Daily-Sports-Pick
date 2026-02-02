@@ -158,7 +158,7 @@
       </div>
       <div class="pick-image-col">
         {%- if section.settings.image != blank -%}
-          {{ section.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', width: section.settings.image.width, height: section.settings.image.height }}
+          {{ section.settings.image | image_url: width: 400, height: 300, crop: 'center' | image_tag: loading: 'lazy', width: 400, height: 300 }}
         {%- else -%}
           <!-- Placeholder image resembling the tech illustration in the mockup -->
           <img src="https://placehold.co/400x300/e2e8f0/1e293b?text=Sports+Picks+Illustration" alt="Sports Picks Illustration" width="400" height="300">
