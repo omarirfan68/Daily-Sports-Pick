@@ -448,21 +448,40 @@
               {%- if block.settings.show_matchup -%}
                 <div class="ap-matchup-row">
                   <div class="ap-logos">
-                     {%- if block.settings.team_1_logo != blank -%}
-                        {{ block.settings.team_1_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
-                     {%- else -%}
-                        <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=A" class="ap-logo-img" alt="Team 1">
+                     {%- if block.settings.team_1_name != blank -%}
+                        {%- if block.settings.team_1_logo != blank -%}
+                            {{ block.settings.team_1_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
+                        {%- else -%}
+                            <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=1" class="ap-logo-img" alt="Team 1">
+                        {%- endif -%}
                      {%- endif -%}
                      
-                     {%- if block.settings.team_2_logo != blank -%}
-                        {{ block.settings.team_2_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
-                     {%- else -%}
-                        <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=B" class="ap-logo-img" alt="Team 2">
+                     {%- if block.settings.team_2_name != blank -%}
+                        {%- if block.settings.team_2_logo != blank -%}
+                            {{ block.settings.team_2_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
+                        {%- else -%}
+                            <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=2" class="ap-logo-img" alt="Team 2">
+                        {%- endif -%}
+                     {%- endif -%}
+
+                     {%- if block.settings.team_3_name != blank -%}
+                        {%- if block.settings.team_3_logo != blank -%}
+                            {{ block.settings.team_3_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
+                        {%- else -%}
+                            <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=3" class="ap-logo-img" alt="Team 3">
+                        {%- endif -%}
                      {%- endif -%}
                   </div>
                   <div class="ap-teams">
-                    <div class="ap-team-name">{{ block.settings.team_1_name }}</div>
-                    <div class="ap-team-name">{{ block.settings.team_2_name }}</div>
+                    {%- if block.settings.team_1_name != blank -%}
+                        <div class="ap-team-name">{{ block.settings.team_1_name }}</div>
+                    {%- endif -%}
+                    {%- if block.settings.team_2_name != blank -%}
+                        <div class="ap-team-name">{{ block.settings.team_2_name }}</div>
+                    {%- endif -%}
+                    {%- if block.settings.team_3_name != blank -%}
+                        <div class="ap-team-name">{{ block.settings.team_3_name }}</div>
+                    {%- endif -%}
                   </div>
                 </div>
               {%- endif -%}
@@ -474,10 +493,13 @@
                 {%- if block.settings.show_tags -%}
                   <div class="ap-tags">
                     {%- if block.settings.tag_1 != blank -%}
-                      <span class="ap-tag blue">{{ block.settings.tag_1 }}</span>
+                      <span class="ap-tag {{ block.settings.tag_1_color }}">{{ block.settings.tag_1 }}</span>
                     {%- endif -%}
                     {%- if block.settings.tag_2 != blank -%}
-                      <span class="ap-tag gold">{{ block.settings.tag_2 }}</span>
+                      <span class="ap-tag {{ block.settings.tag_2_color }}">{{ block.settings.tag_2 }}</span>
+                    {%- endif -%}
+                     {%- if block.settings.tag_3 != blank -%}
+                      <span class="ap-tag {{ block.settings.tag_3_color }}">{{ block.settings.tag_3 }}</span>
                     {%- endif -%}
                   </div>
                 {%- endif -%}
@@ -678,13 +700,17 @@
         },
         {
            "type": "header",
-           "content": "Matchup"
+           "content": "Matchup/Teams"
         },
         {
           "type": "checkbox",
           "id": "show_matchup",
           "label": "Show Matchup",
           "default": true
+        },
+        {
+          "type": "paragraph",
+          "content": "Add up to 3 teams. Leave blank if not needed."
         },
         {
           "type": "text",
@@ -707,6 +733,16 @@
           "type": "image_picker",
           "id": "team_2_logo",
           "label": "Team 2 Logo"
+        },
+        {
+          "type": "text",
+          "id": "team_3_name",
+          "label": "Team 3 Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "team_3_logo",
+          "label": "Team 3 Logo"
         },
         {
            "type": "header",
@@ -739,14 +775,58 @@
         {
           "type": "text",
           "id": "tag_1",
-          "label": "Tag 1 (Blue)",
+          "label": "Tag 1 Text",
           "default": "Point Spread Pick"
+        },
+        {
+          "type": "select",
+          "id": "tag_1_color",
+          "label": "Tag 1 Color",
+          "options": [
+            { "value": "blue", "label": "Blue" },
+            { "value": "gold", "label": "Gold" },
+            { "value": "gray", "label": "Gray" },
+            { "value": "red", "label": "Red" },
+            { "value": "green", "label": "Green" }
+          ],
+          "default": "blue"
         },
         {
           "type": "text",
           "id": "tag_2",
-          "label": "Tag 2 (Gold)",
+          "label": "Tag 2 Text",
           "default": "Best Bet"
+        },
+        {
+          "type": "select",
+          "id": "tag_2_color",
+          "label": "Tag 2 Color",
+          "options": [
+            { "value": "blue", "label": "Blue" },
+            { "value": "gold", "label": "Gold" },
+            { "value": "gray", "label": "Gray" },
+            { "value": "red", "label": "Red" },
+            { "value": "green", "label": "Green" }
+          ],
+          "default": "gold"
+        },
+        {
+          "type": "text",
+          "id": "tag_3",
+          "label": "Tag 3 Text"
+        },
+        {
+          "type": "select",
+          "id": "tag_3_color",
+          "label": "Tag 3 Color",
+          "options": [
+            { "value": "blue", "label": "Blue" },
+            { "value": "gold", "label": "Gold" },
+            { "value": "gray", "label": "Gray" },
+            { "value": "red", "label": "Red" },
+            { "value": "green", "label": "Green" }
+          ],
+          "default": "gray"
         },
         {
           "type": "range",
