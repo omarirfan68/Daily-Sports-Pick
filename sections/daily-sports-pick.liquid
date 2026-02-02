@@ -148,13 +148,20 @@
 </style>
 
 <div class="daily-sports-picks-section">
-  <h2 class="pick-header">Tennis Picks</h2>
+  {%- if section.settings.heading_text != blank -%}
+    <h2 class="pick-header">{{ section.settings.heading_text }}</h2>
+  {%- endif -%}
   
   <div class="pick-card">
     <div class="pick-main-content">
       <div class="pick-message-col">
-        <div class="pick-message-title">Sorry, There Are No Picks Available At This Time!</div>
-        <a href="{{ routes.root_url }}" class="pick-btn">Take Me Home</a>
+        {%- if section.settings.message_text != blank -%}
+          <div class="pick-message-title">{{ section.settings.message_text }}</div>
+        {%- endif -%}
+        
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link | default: routes.root_url }}" class="pick-btn">{{ section.settings.button_label }}</a>
+        {%- endif -%}
       </div>
       <div class="pick-image-col">
         {%- if section.settings.image != blank -%}
@@ -166,23 +173,23 @@
       </div>
     </div>
 
-    <div class="pick-secondary-text">
-        Check back later today to find out if any are added, or head over to our picks page for bets on all of today's big matchups.
-    </div>
+    {%- if section.settings.info_text != blank -%}
+      <div class="pick-secondary-text">
+          {{ section.settings.info_text }}
+      </div>
+    {%- endif -%}
 
     <ul class="pick-links">
-      <li class="pick-link-item">
-        <div class="pick-link-content">
-            <a href="#" class="pick-link-title">Tennis News</a>
-            <p class="pick-link-desc">- Discover the latest news.</p>
-        </div>
-      </li>
-      <li class="pick-link-item">
-        <div class="pick-link-content">
-            <a href="#" class="pick-link-title">Bonuses</a>
-            <p class="pick-link-desc">- Check out the latest selection of offers from your favorite Sportsbooks.</p>
-        </div>
-      </li>
+      {%- for block in section.blocks -%}
+        <li class="pick-link-item" {{ block.shopify_attributes }}>
+          <div class="pick-link-content">
+              <a href="{{ block.settings.url }}" class="pick-link-title">{{ block.settings.title }}</a>
+              {%- if block.settings.description != blank -%}
+                <p class="pick-link-desc">- {{ block.settings.description }}</p>
+              {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
     </ul>
   </div>
 </div>
@@ -192,14 +199,84 @@
   "name": "Daily Sports Pick",
   "settings": [
     {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading",
+      "default": "Tennis Picks"
+    },
+    {
+      "type": "textarea",
+      "id": "message_text",
+      "label": "Main Message",
+      "default": "Sorry, There Are No Picks Available At This Time!"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Take Me Home"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
       "type": "image_picker",
       "id": "image",
       "label": "Image"
+    },
+    {
+      "type": "textarea",
+      "id": "info_text",
+      "label": "Information Text",
+      "default": "Check back later today to find out if any are added, or head over to our picks page for bets on all of today's big matchups."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_item",
+      "name": "Link Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Link Title",
+          "default": "News"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link URL"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Discover the latest news."
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Daily Sports Pick"
+      "name": "Daily Sports Pick",
+      "blocks": [
+        {
+          "type": "link_item",
+          "settings": {
+            "title": "Tennis News",
+            "description": "Discover the latest news."
+          }
+        },
+        {
+          "type": "link_item",
+          "settings": {
+             "title": "Bonuses",
+             "description": "Check out the latest selection of offers from your favorite Sportsbooks."
+          }
+        }
+      ]
     }
   ]
 }
