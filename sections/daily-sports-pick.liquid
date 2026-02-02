@@ -1,7 +1,7 @@
 <style>
   .daily-sports-picks-section {
     padding: 40px 20px;
-    background-color: #f8f9fa; /* Light gray background for the section to make the white card pop */
+    background-color: #f8f9fa;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
@@ -17,6 +17,281 @@
     margin-right: auto;
   }
 
+  /* --- Active Pick Card Styles --- */
+  .active-pick-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    max-width: 600px; /* Reduced width to match card style */
+    margin: 0 auto 0px auto;
+    overflow: hidden;
+    text-align: left;
+  }
+
+  /* Card Header */
+  .ap-header {
+    background-color: #e6ffcc; /* Light lime green */
+    padding: 20px;
+    border-bottom: 1px solid #bef2a2;
+    position: relative;
+  }
+
+  .ap-meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 12px;
+  }
+
+  .ap-matchup-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .ap-logos {
+    display: flex;
+    position: relative;
+    width: 60px; /* Space for intersecting circles */
+    height: 40px;
+  }
+
+  .ap-logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #fff;
+    object-fit: contain; /* or cover depending on logo */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .ap-logo-img:first-child {
+    position: absolute;
+    left: 0;
+    z-index: 1;
+  }
+
+  .ap-logo-img:last-child {
+    position: absolute;
+    left: 25px;
+    z-index: 2;
+  }
+  
+  .ap-teams {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .ap-team-name {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #0f172a;
+    text-transform: uppercase;
+  }
+
+  /* Card Body */
+  .ap-body {
+    padding: 20px;
+  }
+
+  .ap-tags-stars-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .ap-tags {
+    display: flex;
+    gap: 8px;
+  }
+
+  .ap-tag {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .ap-tag.blue { background-color: #0ea5e9; }
+  .ap-tag.gold { background-color: #d97706; }
+
+  .ap-stars {
+    color: #d97706; /* Gold color */
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  .ap-pick-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 24px;
+  }
+
+  .ap-reasoning-btn {
+    font-size: 13px;
+    color: #475569;
+    background: #f1f5f9;
+    padding: 4px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .ap-cta-btn {
+    display: block;
+    width: 100%;
+    background-color: #0f172a; /* Black/Dark Navy */
+    color: #fff;
+    text-align: center;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-bottom: 20px;
+    transition: opacity 0.2s;
+  }
+
+  .ap-cta-btn:hover {
+    opacity: 0.9;
+  }
+
+  .ap-author-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 16px;
+  }
+
+  .ap-author-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .ap-author-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  /* --- Stats Card Styles --- */
+  .stats-card {
+    background-color: #011e2f; /* Dark Navy from screenshot */
+    color: white;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .stats-header {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #2d4a5e;
+  }
+
+  .stats-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 15px;
+  }
+
+  .stats-circle-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+
+  .stats-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .stats-circle-inner {
+    width: 86%;
+    height: 86%;
+    background-color: #011e2f;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .stats-percent-text {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stats-percent-label {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-top: 2px;
+  }
+
+  .stats-numbers {
+    display: flex;
+    gap: 20px;
+  }
+
+  .stats-block {
+    text-align: center;
+  }
+  
+  .stats-block:not(:last-child) {
+    border-right: 2px solid #334155;
+    padding-right: 20px;
+  }
+
+  .stats-value {
+    font-size: 32px;
+    font-weight: 300; /* Thin font look */
+    line-height: 1;
+    font-family: 'Oswald', sans-serif; /* Fallback to Oswald-like font if possible */
+  }
+
+  .stats-label {
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .stats-footer {
+    font-size: 11px;
+    color: #38bdf8; /* Light Blue */
+  }
+
+  /* --- Placeholder Styles (Previous) --- */
   .pick-card {
     background-color: #ffffff;
     border-radius: 8px;
@@ -25,17 +300,6 @@
     padding: 40px;
     max-width: 1000px;
     margin: 0 auto;
-  }
-
-  .active-pick-card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
-    padding: 40px;
-    max-width: 1000px;
-    margin: 0 auto 20px auto; /* Margin bottom for separation between multiple picks */
-    text-align: center;
   }
 
   .pick-main-content {
@@ -170,10 +434,108 @@
       {%- endif -%}
 
       {%- for block in active_pick_blocks -%}
-        <div class="active-pick-card" {{ block.shopify_attributes }}>
-          <div style="font-size: 24px; font-weight: bold;">
-            {{ block.settings.text }}
+        <div {{ block.shopify_attributes }}>
+          <div class="active-pick-card">
+            <!-- Card Header -->
+            <div class="ap-header">
+              <div class="ap-meta-row">
+                <span>{{ block.settings.game_time }}</span>
+                <span>{{ block.settings.game_date }}</span>
+              </div>
+              <div class="ap-matchup-row">
+                <div class="ap-logos">
+                   {%- if block.settings.team_1_logo != blank -%}
+                      {{ block.settings.team_1_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
+                   {%- else -%}
+                      <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=A" class="ap-logo-img" alt="Team 1">
+                   {%- endif -%}
+                   
+                   {%- if block.settings.team_2_logo != blank -%}
+                      {{ block.settings.team_2_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
+                   {%- else -%}
+                      <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=B" class="ap-logo-img" alt="Team 2">
+                   {%- endif -%}
+                </div>
+                <div class="ap-teams">
+                  <div class="ap-team-name">{{ block.settings.team_1_name }}</div>
+                  <div class="ap-team-name">{{ block.settings.team_2_name }}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="ap-body">
+              <div class="ap-tags-stars-row">
+                <div class="ap-tags">
+                  {%- if block.settings.tag_1 != blank -%}
+                    <span class="ap-tag blue">{{ block.settings.tag_1 }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.tag_2 != blank -%}
+                    <span class="ap-tag gold">{{ block.settings.tag_2 }}</span>
+                  {%- endif -%}
+                </div>
+                <div class="ap-stars">
+                  {%- for i in (1..5) -%}
+                    {%- if i <= block.settings.star_rating -%}
+                      ★
+                    {%- else -%}
+                      ☆
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+
+              <div class="ap-pick-line">
+                <span>{{ block.settings.pick_line }}</span>
+                <span class="ap-reasoning-btn">Reasoning ⌵</span>
+              </div>
+
+              <a href="{{ block.settings.cta_link | default: '#' }}" class="ap-cta-btn">
+                {{ block.settings.cta_text }}
+              </a>
+
+              <div class="ap-author-row">
+                {%- if block.settings.author_image != blank -%}
+                   {{ block.settings.author_image | image_url: width: 64 | image_tag: class: 'ap-author-img', loading: 'lazy' }}
+                {%- else -%}
+                   <img src="https://placehold.co/64x64/e2e8f0/64748b?text=U" class="ap-author-img" alt="Author">
+                {%- endif -%}
+                <span class="ap-author-name">{{ block.settings.author_name }}</span>
+              </div>
+            </div>
           </div>
+          
+          {%- if block.settings.show_stats -%}
+            <div class="stats-card">
+              <div class="stats-header">{{ block.settings.stats_title }}</div>
+              <div class="stats-content">
+                <div class="stats-circle-container">
+                  {%- assign win_pct = block.settings.win_percentage | default: 50 -%}
+                  <div class="stats-circle" style="background-image: conic-gradient(#7dd3fc 0% {{ win_pct }}%, #334155 {{ win_pct }}% 100%);">
+                    <div class="stats-circle-inner">
+                      <div class="stats-percent-text">{{ block.settings.win_percentage }}<span style="font-size: 10px;">%</span></div>
+                      <div class="stats-percent-label">Win %</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="stats-numbers">
+                  <div class="stats-block">
+                    <div class="stats-value">{{ block.settings.wins }}</div>
+                    <div class="stats-label">Wins</div>
+                  </div>
+                  <div class="stats-block">
+                    <div class="stats-value">{{ block.settings.losses }}</div>
+                    <div class="stats-label">Losses</div>
+                  </div>
+                   <div class="stats-block">
+                    <div class="stats-value">{{ block.settings.pushes }}</div>
+                    <div class="stats-label">Pushes</div>
+                  </div>
+                </div>
+              </div>
+              <div class="stats-footer">{{ block.settings.stats_footer }}</div>
+            </div>
+          {%- endif -%}
         </div>
       {%- endfor -%}
     </div>
@@ -275,10 +637,154 @@
       "name": "Active Pick",
       "settings": [
         {
-          "type": "textarea",
-          "id": "text",
-          "label": "Pick Text",
-          "default": "Todays Pick: Player A to win!"
+           "type": "header",
+           "content": "Game Info"
+        },
+        {
+          "type": "text",
+          "id": "game_time",
+          "label": "Game Time",
+          "default": "6:30 PM ET"
+        },
+        {
+          "type": "text",
+          "id": "game_date",
+          "label": "Game Date",
+          "default": "Sun Feb 8"
+        },
+        {
+           "type": "header",
+           "content": "Matchup"
+        },
+        {
+          "type": "text",
+          "id": "team_1_name",
+          "label": "Team 1 Name",
+          "default": "SEAHAWKS"
+        },
+        {
+          "type": "image_picker",
+          "id": "team_1_logo",
+          "label": "Team 1 Logo"
+        },
+        {
+          "type": "text",
+          "id": "team_2_name",
+          "label": "Team 2 Name",
+          "default": "PATRIOTS"
+        },
+        {
+          "type": "image_picker",
+          "id": "team_2_logo",
+          "label": "Team 2 Logo"
+        },
+        {
+           "type": "header",
+           "content": "Pick Details"
+        },
+        {
+          "type": "text",
+          "id": "tag_1",
+          "label": "Tag 1 (Blue)",
+          "default": "Point Spread Pick"
+        },
+        {
+          "type": "text",
+          "id": "tag_2",
+          "label": "Tag 2 (Gold)",
+          "default": "Best Bet"
+        },
+        {
+          "type": "range",
+          "id": "star_rating",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "label": "Star Rating",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "pick_line",
+          "label": "Pick Line Text",
+          "default": "SEA Seahawks -4.5 (-115)"
+        },
+        {
+           "type": "header",
+           "content": "Call to Action"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Button Text",
+          "default": "SIGN UP NOW WITH NOVIG"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "Button Link"
+        },
+        {
+           "type": "header",
+           "content": "Author"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author Name",
+          "default": "Chris R. Farley"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_image",
+          "label": "Author Image"
+        },
+        {
+           "type": "header",
+           "content": "Statistics"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_stats",
+          "label": "Show Stats Card",
+          "default": false,
+          "info": "Toggle to show/hide the statistics card below the pick."
+        },
+        {
+          "type": "text",
+          "id": "stats_title",
+          "label": "Stats Title",
+          "default": "NFL Best Bets"
+        },
+        {
+          "type": "text",
+          "id": "win_percentage",
+          "label": "Win Percentage",
+          "default": "51.3"
+        },
+        {
+          "type": "number",
+          "id": "wins",
+          "label": "Wins",
+          "default": 39
+        },
+        {
+          "type": "number",
+          "id": "losses",
+          "label": "Losses",
+          "default": 37
+        },
+        {
+          "type": "number",
+          "id": "pushes",
+          "label": "Pushes",
+          "default": 1
+        },
+        {
+          "type": "text",
+          "id": "stats_footer",
+          "label": "Stats Footer Text",
+          "default": "Percentage only includes Wins and Losses"
         }
       ]
     },
