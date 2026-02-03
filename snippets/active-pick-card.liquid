@@ -28,16 +28,6 @@
                 {%- endif -%}
              {%- endif -%}
            {%- endif -%}
-
-           {%- if block.settings.add_team_3 -%}
-             {%- if block.settings.team_3_name != blank -%}
-                {%- if block.settings.team_3_logo != blank -%}
-                    {{ block.settings.team_3_logo | image_url: width: 80 | image_tag: class: 'ap-logo-img', loading: 'lazy' }}
-                {%- else -%}
-                    <img src="https://placehold.co/80x80/f1f5f9/94a3b8?text=3" class="ap-logo-img" alt="Team 3">
-                {%- endif -%}
-             {%- endif -%}
-           {%- endif -%}
         </div>
         <div class="ap-teams">
           {%- if block.settings.team_1_name != blank -%}
@@ -45,9 +35,6 @@
           {%- endif -%}
           {%- if block.settings.add_team_2 and block.settings.team_2_name != blank -%}
               <div class="ap-team-name">{{ block.settings.team_2_name }}</div>
-          {%- endif -%}
-          {%- if block.settings.add_team_3 and block.settings.team_3_name != blank -%}
-              <div class="ap-team-name">{{ block.settings.team_3_name }}</div>
           {%- endif -%}
         </div>
       </div>
@@ -65,21 +52,16 @@
           {%- if block.settings.add_tag_2 and block.settings.tag_2 != blank -%}
             <span class="ap-tag {{ block.settings.tag_2_color }}">{{ block.settings.tag_2 }}</span>
           {%- endif -%}
-           {%- if block.settings.add_tag_3 and block.settings.tag_3 != blank -%}
-            <span class="ap-tag {{ block.settings.tag_3_color }}">{{ block.settings.tag_3 }}</span>
-          {%- endif -%}
         </div>
       {%- endif -%}
       
       {%- if block.settings.show_stars -%}
         <div class="ap-stars">
-          {%- for i in (1..5) -%}
-            {%- if i <= block.settings.star_rating -%}
-              ★
-            {%- else -%}
-              ☆
-            {%- endif -%}
-          {%- endfor -%}
+          <span style="color: #1e293b; font-weight: 800; font-size: 14px; margin-right: 6px; letter-spacing: 0;">{{ block.settings.star_rating }}</span>
+          <div style="position: relative; display: inline-block; padding: 0;">
+            <div style="color: #cbd5e1; user-select: none;">★★★★★</div>
+            <div style="color: #d97706; position: absolute; top: 0; left: 0; overflow: hidden; width: {{ block.settings.star_rating | times: 20 }}%; white-space: nowrap; user-select: none;">★★★★★</div>
+          </div>
         </div>
       {%- endif -%}
     </div>
@@ -89,7 +71,12 @@
         <span>{{ block.settings.pick_line }}</span>
         {%- if block.settings.show_reasoning_btn -%}
           <button type="button" class="ap-reasoning-btn" onclick="toggleReasoning('{{ block.id }}', this)">
-            Reasoning ⌵
+            <span>Reasoning</span>
+            <span class="ap-icon" style="display:inline-flex; width: 12px; height: 12px; transition: transform 0.2s;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
           </button>
         {%- endif -%}
       </div>

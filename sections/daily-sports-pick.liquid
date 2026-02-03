@@ -1,8 +1,11 @@
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@900&display=swap');
+
   .daily-sports-picks-section {
     padding: 40px 20px;
     background-color: #f8f9fa;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: "Instrument Sans", sans-serif;
   }
 
   .pick-header {
@@ -19,22 +22,39 @@
 
   /* --- Active Pick Card Styles --- */
   .active-pick-card {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background-color: #edf7e2;
+    background-image: 
+      linear-gradient(#abc785, #abc785), /* 2px Border Line */
+      linear-gradient(90deg, #cce8aa 0%, #edf7e2 100%); /* Header Gradient */
+    background-size: 
+      100% 2px, 
+      100% 185px; /* Fixed Height 185px */
+    background-position: 
+      0 185px, 
+      top left;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     border: 1px solid #e2e8f0;
     max-width: 600px; /* Reduced width to match card style */
-    margin: 0 auto 0px auto;
+    margin: 0 auto 20px auto;
     overflow: hidden;
     text-align: left;
+    padding-bottom: 5px; /* Slight padding for the inner card margin */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .active-pick-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
 
   /* Card Header */
   .ap-header {
-    background-color: #e6ffcc; /* Light lime green */
-    padding: 20px;
-    border-bottom: 1px solid #bef2a2;
+    background-color: transparent;
+    padding: 20px 20px 15px 20px;
     position: relative;
+    margin-bottom: 15px; /* Push body down slightly from the line */
   }
 
   .ap-meta-row {
@@ -55,13 +75,13 @@
   .ap-logos {
     display: flex;
     position: relative;
-    width: 60px; /* Space for intersecting circles */
-    height: 40px;
+    width: 92px; /* Adjusted for 56px images with overlap */
+    height: 56px;
   }
 
   .ap-logo-img {
-    width: 40px;
-    height: 40px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: #fff;
     border: 2px solid #fff;
@@ -77,7 +97,7 @@
 
   .ap-logo-img:last-child {
     position: absolute;
-    left: 25px;
+    left: 35px;
     z-index: 2;
   }
   
@@ -88,16 +108,23 @@
   }
 
   .ap-team-name {
-    font-size: 20px;
-    font-weight: 800;
-    line-height: 1.1;
-    color: #0f172a;
     text-transform: uppercase;
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    white-space: nowrap;
+    line-height: 1;
+    color: #0f172a;
   }
 
   /* Card Body */
   .ap-body {
+    background-color: #fff7ed; /* Light Orange */
+    margin: 0 15px 15px 15px;
     padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #7dbe2f; /* Muted Gold/Tan border */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
   }
 
   .ap-tags-stars-row {
@@ -105,13 +132,15 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Force single line */
     gap: 10px;
   }
 
   .ap-tags {
     display: flex;
     gap: 8px;
+    flex-shrink: 1; /* Allow tags to shrink if needed */
+    overflow: hidden; /* Prevent overflow */
   }
 
   .ap-tag {
@@ -121,6 +150,7 @@
     padding: 4px 10px;
     border-radius: 4px;
     text-transform: uppercase;
+    white-space: nowrap; /* Keep tag text on one line */
   }
 
   .ap-tag.blue { background-color: #0ea5e9; }
@@ -130,16 +160,20 @@
     color: #d97706; /* Gold color */
     font-size: 18px;
     letter-spacing: 2px;
+    flex-shrink: 0; /* Don't squash the stars */
+    display: flex;
+    align-items: center;
   }
 
   .ap-pick-line {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start; /* Align top in case of wrapping, but we'll fix button */
     font-size: 18px;
     font-weight: 700;
     color: #1a202c;
     margin-bottom: 24px;
+    gap: 10px;
   }
 
   .ap-reasoning-btn {
@@ -149,11 +183,43 @@
     padding: 4px 12px;
     border-radius: 4px;
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap; /* Prevent breaking like "Reasoning \n v" */
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .ap-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    margin-top: 0; 
+    transition: transform 0.2s ease; /* Ensure transition exists here */
+  }
+  
+  /* Mobile Adjustments */
+  @media (max-width: 480px) {
+    .ap-tag {
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+    .ap-reasoning-btn {
+      font-size: 11px;
+      padding: 4px 8px;
+    }
+    .ap-stars {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
   }
 
   .ap-cta-btn {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     background-color: #0f172a; /* Black/Dark Navy */
     color: #fff;
@@ -198,7 +264,7 @@
     background-color: #011e2f; /* Dark Navy from screenshot */
     color: white;
     max-width: 600px;
-    margin: 0 auto 30px auto;
+    margin: 30px auto 30px auto;
     border-radius: 8px;
     padding: 24px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -276,7 +342,7 @@
     font-size: 32px;
     font-weight: 300; /* Thin font look */
     line-height: 1;
-    font-family: 'Oswald', sans-serif; /* Fallback to Oswald-like font if possible */
+    font-family: "Instrument Sans", sans-serif;
   }
 
   .stats-label {
@@ -428,17 +494,27 @@
   }
 
   .ap-reasoning-content {
-    display: none;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    padding: 16px;
-    background-color: #fffcf0; /* Light beige background */
-    border: 1px solid #f3e9c6;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0 16px;
+    background-color: #fffcf0;
+    border: 1px solid transparent;
     border-radius: 6px;
     font-size: 14px;
     line-height: 1.6;
     color: #334155;
     text-align: left;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease, margin 0.3s ease;
+  }
+
+  .ap-reasoning-content.open {
+    opacity: 1;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 16px;
+    border-color: #f3e9c6;
   }
   
   .ap-reasoning-btn {
@@ -461,22 +537,59 @@
     background-color: #cbd5e1;
     text-decoration: none;
   }
+
+  /* --- Container Layout for Side-by-Side Picks --- */
+  .active-picks-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .pick-header {
+    width: 100%; /* Ensure header spans full width above flex items */
+  }
+
+  .active-pick-wrapper {
+    flex: 1 1 500px; /* Grow, shrink, basis of 500px */
+    max-width: 600px; /* Don't get wider than the max card design */
+    width: 100%;
+    margin-bottom: 20px;
+  }
 </style>
 
 <div class="daily-sports-picks-section">
   {%- assign active_pick_blocks = section.blocks | where: 'type', 'active_pick' -%}
-  {%- if active_pick_blocks.size > 0 -%}
-    <!-- Active Picks View -->
-    <div class="active-picks-container">
-      {%- if section.settings.heading_text != blank -%}
-        <h2 class="pick-header" style="text-align: center;">{{ section.settings.heading_text }}</h2>
+  {%- assign visible_picks = 0 -%}
+  {%- assign now_timestamp = 'now' | date: '%s' -%}
+
+  {%- capture picks_html -%}
+    {%- for block in active_pick_blocks -%}
+      {%- assign show_pick = true -%}
+      
+      {%- if block.settings.enable_expiry -%}
+        {%- assign expiry_string = block.settings.expiry_date | append: ' ' | append: block.settings.expiry_time -%}
+        {%- assign expiry_timestamp = expiry_string | date: '%s' -%}
+        {%- if expiry_timestamp <= now_timestamp -%}
+          {%- assign show_pick = false -%}
+        {%- endif -%}
       {%- endif -%}
 
-      {%- for block in active_pick_blocks -%}
-        <div {{ block.shopify_attributes }}>
+      {%- if show_pick -%}
+        {%- assign visible_picks = visible_picks | plus: 1 -%}
+        <div class="active-pick-wrapper" {{ block.shopify_attributes }}>
           {% render 'active-pick-card', block: block %}
         </div>
-      {%- endfor -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- if visible_picks > 0 -%}
+    <!-- Active Picks View -->
+    <div class="active-picks-container">
+      {{ picks_html }}
     </div>
   {%- else -%}
     <!-- Placeholder / No Picks View -->
@@ -507,7 +620,7 @@
 
       {%- if section.settings.info_text != blank -%}
         <div class="pick-secondary-text">
-            {{ section.settings.info_text }}
+          {{ section.settings.info_text }}
         </div>
       {%- endif -%}
     </div>
@@ -517,12 +630,16 @@
 <script>
   function toggleReasoning(blockId, btn) {
     var content = document.getElementById('reasoning-' + blockId);
-    if (content.style.display === 'none' || content.style.display === '') {
-      content.style.display = 'block';
-      btn.innerText = 'Reasoning ︿';
+    var icon = btn.querySelector('.ap-icon');
+    
+    if (content.classList.contains('open')) {
+      content.style.maxHeight = null; // Collapse
+      content.classList.remove('open');
+      if(icon) icon.style.transform = 'rotate(0deg)';
     } else {
-      content.style.display = 'none';
-      btn.innerText = 'Reasoning ⌵';
+      content.classList.add('open');
+      content.style.maxHeight = content.scrollHeight + 40 + "px"; // Expand with buffer for padding
+      if(icon) icon.style.transform = 'rotate(180deg)';
     }
   }
 </script>
@@ -575,14 +692,11 @@
       "type": "active_pick",
       "name": "Active Pick",
       "settings": [
-        {
-           "type": "header",
-           "content": "Game Info"
-        },
+
         {
           "type": "checkbox",
           "id": "show_game_info",
-          "label": "Show Game Info",
+          "label": "Show Game Date/Time",
           "default": true
         },
         {
@@ -598,66 +712,51 @@
           "default": "Sun Feb 8"
         },
         {
-           "type": "header",
-           "content": "Matchup/Teams"
-        },
-        {
           "type": "checkbox",
           "id": "show_matchup",
-          "label": "Show Matchup",
+          "label": "Show Team Logos/Names",
           "default": true
         },
         {
-          "type": "paragraph",
-          "content": "Add up to 3 teams. Leave blank if not needed."
+           "type": "header",
+           "content": "Team 1 (Primary)"
         },
         {
           "type": "text",
           "id": "team_1_name",
-          "label": "Team 1 Name",
+          "label": "Name",
           "default": "SEAHAWKS"
         },
         {
           "type": "image_picker",
           "id": "team_1_logo",
-          "label": "Team 1 Logo"
+          "label": "Logo"
+        },
+        {
+           "type": "header",
+           "content": "Team 2"
+        },
+        {
+          "type": "checkbox",
+          "id": "add_team_2",
+          "label": "Enable Team 2",
+          "default": true
         },
         {
           "type": "text",
           "id": "team_2_name",
-          "label": "Team 2 Name",
+          "label": "Name",
           "default": "PATRIOTS"
         },
         {
           "type": "image_picker",
           "id": "team_2_logo",
-          "label": "Team 2 Logo"
-        },
-        {
-          "type": "text",
-          "id": "team_3_name",
-          "label": "Team 3 Name"
-        },
-        {
-          "type": "image_picker",
-          "id": "team_3_logo",
-          "label": "Team 3 Logo"
+          "label": "Logo"
         },
         {
            "type": "header",
-           "content": "Pick Details"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_tags",
-          "label": "Show Tags",
-          "default": true
-        },
-        {
-          "type": "checkbox",
-          "id": "show_stars",
-          "label": "Show Stars",
-          "default": true
+           "content": "The Pick",
+           "info": "Details about the specific bet."
         },
         {
           "type": "checkbox",
@@ -666,16 +765,44 @@
           "default": true
         },
         {
+          "type": "text",
+          "id": "pick_line",
+          "label": "Pick Line / Odds",
+          "default": "SEA Seahawks -4.5 (-115)",
+          "info": "The main text displayed for the pick."
+        },
+        {
+           "type": "header",
+           "content": "Confidence (Stars)"
+        },
+        {
           "type": "checkbox",
-          "id": "show_reasoning_btn",
-          "label": "Show Reasoning Button",
+          "id": "show_stars",
+          "label": "Show Stars",
           "default": true
         },
         {
-          "type": "richtext",
-          "id": "reasoning_text",
-          "label": "Reasoning Content",
-          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
+          "type": "range",
+          "id": "star_rating",
+          "min": 0,
+          "max": 5,
+          "step": 0.1,
+          "label": "Confidence Rating (Stars)",
+          "default": 5
+        },
+        {
+           "type": "header",
+           "content": "Tags"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_tags",
+          "label": "Show Tags",
+          "default": true
+        },
+        {
+           "type": "paragraph",
+           "content": "Tag 1 Defaults"
         },
         {
           "type": "text",
@@ -697,6 +824,16 @@
           "default": "blue"
         },
         {
+           "type": "paragraph",
+           "content": "Tag 2 (Optional)"
+        },
+        {
+          "type": "checkbox",
+          "id": "add_tag_2",
+          "label": "Enable Tag 2",
+          "default": true
+        },
+        {
           "type": "text",
           "id": "tag_2",
           "label": "Tag 2 Text",
@@ -708,61 +845,41 @@
           "label": "Tag 2 Color",
           "options": [
             { "value": "blue", "label": "Blue" },
-            { "value": "gold", "label": "Gold" },
-            { "value": "gray", "label": "Gray" },
-            { "value": "red", "label": "Red" },
-            { "value": "green", "label": "Green" }
+            { "value": "gold", "label": "Gold" }
           ],
           "default": "gold"
         },
         {
-          "type": "text",
-          "id": "tag_3",
-          "label": "Tag 3 Text"
+           "type": "header",
+           "content": "Reasoning & Content"
         },
         {
-          "type": "select",
-          "id": "tag_3_color",
-          "label": "Tag 3 Color",
-          "options": [
-            { "value": "blue", "label": "Blue" },
-            { "value": "gold", "label": "Gold" },
-            { "value": "gray", "label": "Gray" },
-            { "value": "red", "label": "Red" },
-            { "value": "green", "label": "Green" }
-          ],
-          "default": "gray"
+          "type": "checkbox",
+          "id": "show_reasoning_btn",
+          "label": "Show Expandable Reasoning",
+          "default": true
         },
         {
-          "type": "range",
-          "id": "star_rating",
-          "min": 0,
-          "max": 5,
-          "step": 1,
-          "label": "Star Rating",
-          "default": 5
-        },
-        {
-          "type": "text",
-          "id": "pick_line",
-          "label": "Pick Line Text",
-          "default": "SEA Seahawks -4.5 (-115)"
+          "type": "richtext",
+          "id": "reasoning_text",
+          "label": "Analysis/Reasoning",
+          "default": "<p>Write your detailed analysis and reasoning for this pick here.</p>"
         },
         {
            "type": "header",
-           "content": "Call to Action"
+           "content": "Action Button (CTA)"
         },
         {
           "type": "checkbox",
           "id": "show_cta",
-          "label": "Show Button (CTA)",
+          "label": "Show Button",
           "default": true
         },
         {
           "type": "text",
           "id": "cta_text",
-          "label": "Button Text",
-          "default": "SIGN UP NOW WITH NOVIG"
+          "label": "Button Label",
+          "default": "SIGN UP NOW"
         },
         {
           "type": "url",
@@ -771,7 +888,7 @@
         },
         {
            "type": "header",
-           "content": "Author"
+           "content": "Author Profile"
         },
         {
           "type": "checkbox",
@@ -782,24 +899,24 @@
         {
           "type": "text",
           "id": "author_name",
-          "label": "Author Name",
+          "label": "Name",
           "default": "Chris R. Farley"
         },
         {
           "type": "image_picker",
           "id": "author_image",
-          "label": "Author Image"
+          "label": "Photo"
         },
         {
            "type": "header",
-           "content": "Statistics"
+           "content": "Performance Stats (Optional)",
+           "info": "Display a stats card below the pick."
         },
         {
           "type": "checkbox",
           "id": "show_stats",
           "label": "Show Stats Card",
-          "default": false,
-          "info": "Toggle to show/hide the statistics card below the pick."
+          "default": false
         },
         {
           "type": "text",
@@ -810,7 +927,7 @@
         {
           "type": "text",
           "id": "win_percentage",
-          "label": "Win Percentage",
+          "label": "Win %",
           "default": "51.3"
         },
         {
@@ -834,8 +951,33 @@
         {
           "type": "text",
           "id": "stats_footer",
-          "label": "Stats Footer Text",
+          "label": "Footer Note",
           "default": "Percentage only includes Wins and Losses"
+        },
+        {
+           "type": "header",
+           "content": "Advanced: Auto-Expiry",
+           "info": "Automatically hide this pick after a specific time."
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_expiry",
+          "label": "Enable Auto-Expiry",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "expiry_date",
+          "label": "Expiry Date (YYYY-MM-DD)",
+          "default": "2025-12-31",
+          "info": "Format: YYYY-MM-DD"
+        },
+        {
+          "type": "text",
+          "id": "expiry_time",
+          "label": "Expiry Time (24h)",
+          "default": "23:59",
+          "info": "Format: HH:MM (e.g. 18:30)"
         }
       ]
     }
